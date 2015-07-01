@@ -1,8 +1,8 @@
 navigator.geolocation.getCurrentPosition(success, fail);
-
+var lat, lon, date;
 function success(pos){
-	var lat = pos.coords.latitude;
-	var lon = pos.coords.longitude;
+	lat = pos.coords.latitude;
+	lon = pos.coords.longitude;
 
 	window.localStorage.setItem('lat', lat);
 	window.localStorage.setItem('lon', lon);
@@ -12,8 +12,8 @@ function success(pos){
 
 }
 function fail(error){
-	var lat = window.localStorage.getItem('lat');
-	var lon = window.localStorage.getItem('lon');
+	lat = window.localStorage.getItem('lat');
+	lon = window.localStorage.getItem('lon');
 	if(lat && lon){
 		getWeather(lat, lon);
 	}else{
@@ -22,10 +22,16 @@ function fail(error){
 }
 
 function getWeather(lat, lon){
-	$.get("http://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&units=metric&lang=pt",
+	$.get('http://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&units=metric&lang=pt',
 	function(data){
 		console.log(data);
-		$("#clima").text(data.weather[0].main);
+		//$("#content").text(data.weather[0].main);
+		date = new Date(data.dt);
+		var $weather = '<p>'+ data.weather[0].main +'</p>',
+			$temp = '<p>'+ data.main.temp + 'º</p>',
+			$city = '<p>' + data.name + '</p>',
+			$date = '<p>' + date + '</p>';
+		$('#content').html($weather + $temp + $city + $date);
 	});
 }
 /*$.get("http://api.openweathermap.org/data/2.5/weather?q=Niter%C3%B3i&units=metric&lang=pt",
