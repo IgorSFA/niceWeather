@@ -27,14 +27,18 @@ function getWeather(lat, lon){
 		console.log(response);
 		//$("#content").text(response.weather[0].main);
 		date = new Date();
-		var $weather = '<p>'+ response.weather[0].main +'</p>',
+		var $icon = '<p><img class="icon" src="http://openweathermap.org/img/w/'+response.weather[0].icon+'.png" /></p>',
+			//$icon = '<p><i class = "wi '+getIcon(response.weather[0].main)+'"></i></p>',
+			$weather = '<p>'+ response.weather[0].main +'</p>',
 			$temp = '<p>'+ response.main.temp + 'º</p>',
 			$city = '<p>' + response.name + '</p>',
 			$date = '<p>' + date.getDate()+'/'+ (date.getMonth()+1) + '</p>';
-		$('#content').html($weather + $temp + $city + $date);
+		$('#content').html($icon + $weather + $temp + $city + $date);
 	});
 }
-/*$.get("http://api.openweathermap.org/data/2.5/weather?q=Niter%C3%B3i&units=metric&lang=pt",
-	function(data){
-	console.log(data.weather[0].main);
-});*/
+/*function getIcon(w){
+	switch(w.toLowerCase()){
+		case 'clear':
+			return 'wi-day-sunny';
+	}
+}*/
